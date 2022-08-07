@@ -25,13 +25,14 @@ namespace Baseinfo
             InitializeComponent();
         }
 
-        private void RegistrateButton_Click(object sender, RoutedEventArgs e)
+        internal void RegistrateButton_Click(object sender, RoutedEventArgs e)
         {
             string pageName = NameTextbox.Text, pagePassword = PasswordTextBox.Text;
-            User user = new User (pageName, pagePassword);
-            if(user.Registrate())
+            User user = new(pageName, pagePassword);
+            if (user.Registrate())
             {
-                this.NavigationService.Navigate(new Uri("WorkPage.xaml", UriKind.Relative));
+                WorkPage p = new WorkPage(user);
+                this.NavigationService.Navigate(p);
             }
             else
             {

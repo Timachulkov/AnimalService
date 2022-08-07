@@ -9,7 +9,6 @@
       Title="WorkPage">
 
     <Grid>
-        <Label Content="WorkPage" HorizontalAlignment="Left" Margin="234,75,0,0" VerticalAlignment="Top" Width="297"/>
         <DataGrid x:Name="animals_table"  Margin="0,148,0,0" Loaded="animals_table_Loaded" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding AnimalsId}" Header="ID" Width="100"/>
@@ -17,8 +16,14 @@
                 <DataGridTextColumn Binding="{Binding DateBorn}" Header="date" Width="70"/>
                 <DataGridComboBoxColumn x:Name="personColumn"  SelectedItemBinding="{Binding PersonNavigation}" SelectedValueBinding="{Binding Path=Person}" SelectedValuePath="UserId" DisplayMemberPath="Username" Header="person" Width="100"/>
                 <DataGridComboBoxColumn x:Name="sexColumn"  SelectedItemBinding="{Binding SexNavigation}" SelectedValueBinding="{Binding Path=Sex}" SelectedValuePath="SexId" DisplayMemberPath="Name" Header="sex" Width="100"/>
-                <DataGridComboBoxColumn x:Name="typeColumn" SelectedItemBinding="{Binding Animals}" SelectedValueBinding="{Binding Path=Type}" SelectedValuePath="TypeId" DisplayMemberPath="Name" Header="animal type" Width="100"/>
+                <DataGridComboBoxColumn x:Name="typeColumn" SelectedItemBinding="{Binding TypeNavigation}" SelectedValueBinding="{Binding Path=Type}" SelectedValuePath="TypeId" DisplayMemberPath="Name" Header="animal type" Width="100"/>
             </DataGrid.Columns>
         </DataGrid>
+        <ToolBar HorizontalAlignment="Center" Height="25" VerticalAlignment="Top" Width="800">
+            <Button x:Name="AddAnimalButton" Content="Новое животное" HorizontalAlignment="Left" VerticalAlignment="Top" Background="White" Foreground="Black" BorderBrush="Black" Click="AddAnimalButton_Click"/>
+            <Button Content="Мои животные" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="Black"/>
+        </ToolBar>
+        <Label Content="Поиск животных по id" HorizontalAlignment="Left" Margin="480,34,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="618,38,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
     </Grid>
 </Page>

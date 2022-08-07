@@ -81,11 +81,11 @@ namespace Baseinfo
 
                 entity.Property(e => e.Type).HasColumnName("type");
 
-                entity.HasOne(d => d.Animals)
-                    .WithOne(p => p.Animal)
-                    .HasForeignKey<Animal>(d => d.AnimalsId)
+                entity.HasOne(d => d.TypeNavigation)
+                    .WithMany(p => p.Animals)
+                    .HasForeignKey(d => d.Type)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("animals_animals_id_fkey");
+                    .HasConstraintName("animals_type_fkey");
 
                 entity.HasOne(d => d.PersonNavigation)
                     .WithMany(p => p.Animals)
@@ -114,9 +114,6 @@ namespace Baseinfo
             modelBuilder.Entity<Type>(entity =>
             {
                 entity.ToTable("type");
-
-                entity.HasIndex(e => e.Name, "type_name_key")
-                    .IsUnique();
 
                 entity.Property(e => e.TypeId)
                     .HasColumnName("type_id")

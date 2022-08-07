@@ -21,15 +21,13 @@ namespace Baseinfo
     /// </summary>
     public partial class WorkPage : Page
     {
+        User workingUser;
         public WorkPage()
         {
             InitializeComponent();
 
             using (baseinfoContext db = new baseinfoContext())
             {
-               
-                //db.Animals.ToList();
-
                 db.Animals.Load();
                 db.Accounts.Load();
                 db.Types.Load();
@@ -41,7 +39,11 @@ namespace Baseinfo
 
             }
         }
-            private void animals_table_Loaded(object sender, RoutedEventArgs e)
+        public WorkPage(User user) : this()
+        {
+            workingUser = user;
+        }
+        private void animals_table_Loaded(object sender, RoutedEventArgs e)
             {
 
             }
@@ -50,6 +52,10 @@ namespace Baseinfo
             {
 
             }
-        
+        private void AddAnimalButton_Click(object sender, RoutedEventArgs e)
+        {
+            CreateAnimal p = new CreateAnimal(workingUser);
+            p.Show();
+        }
     }
 }

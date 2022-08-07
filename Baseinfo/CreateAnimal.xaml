@@ -1,0 +1,22 @@
+﻿<Window x:Class="Baseinfo.CreateAnimal"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Baseinfo"
+        mc:Ignorable="d"
+        Title="Создание_животного" Height="251" Width="286">
+    <Grid>
+        <TextBox x:Name="nameTextbox" HorizontalAlignment="Left" Margin="118,36,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Имя" HorizontalAlignment="Left" Margin="82,28,0,0" VerticalAlignment="Top"/>
+        <Label Content="Дата рождения" HorizontalAlignment="Left" Margin="21,59,0,0" VerticalAlignment="Top"/>
+        <DatePicker x:Name="DateAnimal" HorizontalAlignment="Left" Margin="118,61,0,0" VerticalAlignment="Top" DisplayDate="2022-07-08"/>
+        <ComboBox x:Name="typeCombobox" HorizontalAlignment="Left" Margin="118,90,0,0" VerticalAlignment="Top" Width="120" SelectedValue="TypeId"  DisplayMemberPath="Name" SelectedValuePath="{Binding TypeId }" />
+        <ComboBox x:Name="SexCombobox" HorizontalAlignment="Left" Margin="118,117,0,0" VerticalAlignment="Top" Width="120" SelectedValue="SexId"  DisplayMemberPath="Name" SelectedValuePath="{Binding SexId }" />
+        <Label Content="Вид" HorizontalAlignment="Left" Margin="82,86,0,0" VerticalAlignment="Top"/>
+        <Label Content="Пол" HorizontalAlignment="Left" Margin="82,117,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="GoBack" Content="Отменить" HorizontalAlignment="Left" Margin="56,177,0,0" VerticalAlignment="Top" Click="GoBack_Click"/>
+        <Button x:Name="CreateNew" Content="Создать" HorizontalAlignment="Left" Margin="211,177,0,0" VerticalAlignment="Top" Click="CreateNew_Click"/>
+
+    </Grid>
+</Window>

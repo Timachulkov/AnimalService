@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Baseinfo
 {
@@ -11,14 +12,12 @@ namespace Baseinfo
         }
 
         public int UserId { get; set; }
+        [Index(IsUnique = true)]
         public string Username { get; set; } = null!;
+        [Index(IsUnique = true)]
         public string Password { get; set; } = null!;
 
         public virtual ICollection<Animal> Animals { get; set; }
 
-       // public override string ToString()
-       // {
-       //     return Convert.ToString(Username);
-       // }
     }
 }

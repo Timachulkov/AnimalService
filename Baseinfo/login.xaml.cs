@@ -20,6 +20,7 @@ namespace Baseinfo
     /// </summary>
     public partial class login : Page
     {
+        
         public login()
         {
             InitializeComponent();
@@ -28,13 +29,16 @@ namespace Baseinfo
         {
             this.NavigationService.Navigate(new Uri("registrate.xaml", UriKind.Relative));
         }
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        internal void LoginButton_Click(object sender, RoutedEventArgs e)
         {
+            
             string pageName = NameTextbox.Text, pagePassword = PasswordTextBox.Text;
             User user = new User(pageName, pagePassword);
             if (user.Login())
             {
-                this.NavigationService.Navigate(new Uri("WorkPage.xaml", UriKind.Relative));
+                WorkPage p = new WorkPage(user);
+                
+                this.NavigationService.Navigate(p);
             }
             else
             {
