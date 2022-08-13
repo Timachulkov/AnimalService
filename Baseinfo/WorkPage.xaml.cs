@@ -22,40 +22,84 @@ namespace Baseinfo
     public partial class WorkPage : Page
     {
         User workingUser;
+        DataGrindAnimal dataGrindAnimal = new DataGrindAnimal();
         public WorkPage()
         {
             InitializeComponent();
+        }
+        public WorkPage(User user) : this()
+        {
+            workingUser = user;
+        }
+        private void AddAnimalButton_Click(object sender, RoutedEventArgs e)
+        {
+            CreateAnimal p = new CreateAnimal(workingUser);
+            p.Show();
+        }
+        private void animals_table_Loaded(object sender, RoutedEventArgs e)
+        {
+            animals_table.ItemsSource = dataGrindAnimal.GetAnimals();
+            personColumn.ItemsSource = dataGrindAnimal.GetAccounts();
+            sexColumn.ItemsSource = dataGrindAnimal.GetSexs();
+            typeColumn.ItemsSource = dataGrindAnimal.GetTypes();
+        }
 
+        private void UserAnimal_Checked(object sender, RoutedEventArgs e)
+        {
+            animals_table.ItemsSource = dataGrindAnimal.AnimalPerson(workingUser.ToID());
+        }
+    
+
+        private void UserAnimal_Unchecked(object sender, RoutedEventArgs e)
+        {
+            animals_table.ItemsSource = dataGrindAnimal.GetAnimals();
+        }
+
+    }
+    internal class DataGrindAnimal
+    {
+        List<Animal> animalsSaved;
+        List<Account> personSaved;
+        List<Sex> sexSaved;
+        List<Type> typesSaved;
+        internal DataGrindAnimal()
+        {
+            Update();
+        }
+        internal void Update()
+        {
             using (baseinfoContext db = new baseinfoContext())
             {
                 db.Animals.Load();
                 db.Accounts.Load();
                 db.Types.Load();
                 db.Sexes.Load();
-                animals_table.ItemsSource = db.Animals.Local.ToBindingList();
-                personColumn.ItemsSource = db.Accounts.Local.ToBindingList();
-                sexColumn.ItemsSource = db.Sexes.Local.ToBindingList();
-                typeColumn.ItemsSource = db.Types.Local.ToBindingList();
-
+                animalsSaved = db.Animals.ToList();
+                personSaved = db.Accounts.ToList();
+                sexSaved = db.Sexes.ToList();
+                typesSaved = db.Types.ToList();
+               
             }
         }
-        public WorkPage(User user) : this()
+        internal List<Animal> AnimalPerson(int personID)
         {
-            workingUser = user;
+            return animalsSaved.Where(o => o.Person == personID).ToList();
         }
-        private void animals_table_Loaded(object sender, RoutedEventArgs e)
-            {
-
-            }
-
-            private void DataGridComboBoxColumn_SourceUpdated(object sender, DataTransferEventArgs e)
-            {
-
-            }
-        private void AddAnimalButton_Click(object sender, RoutedEventArgs e)
+        internal List<Animal> GetAnimals()
         {
-            CreateAnimal p = new CreateAnimal(workingUser);
-            p.Show();
+            return animalsSaved;
+        }
+        internal List<Sex> GetSexs()
+        {
+            return sexSaved;
+        }
+        internal List<Type> GetTypes()
+        {
+            return typesSaved;
+        }
+        internal List<Account> GetAccounts()
+        {
+            return personSaved;
         }
     }
 }
