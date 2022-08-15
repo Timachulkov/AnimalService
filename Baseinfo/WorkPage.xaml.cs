@@ -21,16 +21,15 @@ namespace Baseinfo
     /// </summary>
     public partial class WorkPage : Page
     {
+        DataGrindStatus State;
         User workingUser;
-        DataGrindAnimal dataGrindAnimal = new DataGrindAnimal();
+        DataAnimal dataGrindAnimal = new DataAnimal();
         public WorkPage()
         {
             InitializeComponent();
+            
         }
-        public WorkPage(User user) : this()
-        {
-            workingUser = user;
-        }
+        public WorkPage(User user) : this() => workingUser = user;
         private void AddAnimalButton_Click(object sender, RoutedEventArgs e)
         {
             CreateAnimal p = new CreateAnimal(workingUser);
@@ -38,6 +37,7 @@ namespace Baseinfo
         }
         private void animals_table_Loaded(object sender, RoutedEventArgs e)
         {
+            State = DataGrindStatus.FULL;
             animals_table.ItemsSource = dataGrindAnimal.GetAnimals();
             personColumn.ItemsSource = dataGrindAnimal.GetAccounts();
             sexColumn.ItemsSource = dataGrindAnimal.GetSexs();
@@ -46,60 +46,44 @@ namespace Baseinfo
 
         private void UserAnimal_Checked(object sender, RoutedEventArgs e)
         {
-            animals_table.ItemsSource = dataGrindAnimal.AnimalPerson(workingUser.ToID());
+            animals_table.ItemsSource = dataGrindAnimal.GetAnimalPerson(workingUser.ToID());
+            State = DataGrindStatus.SHOWBYPERSON;
+            Search.Text = "";// Нужно переделать к общей системе контроля через статусы
         }
-    
 
         private void UserAnimal_Unchecked(object sender, RoutedEventArgs e)
         {
-            animals_table.ItemsSource = dataGrindAnimal.GetAnimals();
-        }
-
-    }
-    internal class DataGrindAnimal
-    {
-        List<Animal> animalsSaved;
-        List<Account> personSaved;
-        List<Sex> sexSaved;
-        List<Type> typesSaved;
-        internal DataGrindAnimal()
-        {
-            Update();
-        }
-        internal void Update()
-        {
-            using (baseinfoContext db = new baseinfoContext())
+            if(State == DataGrindStatus.SHOWBYPERSON)
             {
-                db.Animals.Load();
-                db.Accounts.Load();
-                db.Types.Load();
-                db.Sexes.Load();
-                animalsSaved = db.Animals.ToList();
-                personSaved = db.Accounts.ToList();
-                sexSaved = db.Sexes.ToList();
-                typesSaved = db.Types.ToList();
-               
+                animals_table.ItemsSource = dataGrindAnimal.GetAnimals();
+                State = DataGrindStatus.FULL;
+            }
+
+        }
+        
+        private void Search_KeyDown(object sender, KeyEventArgs e)
+        {
+            UserAnimal.IsChecked = false;// Нужно переделать к общей системе контроля через статусы
+            if (e.Key == Key.Enter)
+            {
+                if (Search.Text == "" && State == DataGrindStatus.SHOWIDANIMAL)
+                {
+                    animals_table.ItemsSource = dataGrindAnimal.GetAnimals();
+                    State = DataGrindStatus.FULL;
+                }
+                else
+                {
+                    animals_table.ItemsSource = dataGrindAnimal.GetAnimal(Int32.Parse(Search.Text));
+                    State = DataGrindStatus.SHOWIDANIMAL;
+                }
             }
         }
-        internal List<Animal> AnimalPerson(int personID)
-        {
-            return animalsSaved.Where(o => o.Person == personID).ToList();
-        }
-        internal List<Animal> GetAnimals()
-        {
-            return animalsSaved;
-        }
-        internal List<Sex> GetSexs()
-        {
-            return sexSaved;
-        }
-        internal List<Type> GetTypes()
-        {
-            return typesSaved;
-        }
-        internal List<Account> GetAccounts()
-        {
-            return personSaved;
-        }
+    }
+   
+    enum DataGrindStatus
+    {
+        FULL,
+        SHOWBYPERSON,
+        SHOWIDANIMAL
     }
 }

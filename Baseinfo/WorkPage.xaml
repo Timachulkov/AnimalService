@@ -9,21 +9,28 @@
       Title="WorkPage">
 
     <Grid>
-        <DataGrid x:Name="animals_table"  Margin="0,148,0,0" Loaded="animals_table_Loaded" AutoGenerateColumns="False" IsReadOnly="True">
+        <DataGrid x:Name="animals_table"  Margin="0,26,0,0" Loaded="animals_table_Loaded" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding AnimalsId}" Header="ID" Width="100"/>
+                <DataGridTextColumn Binding="{Binding AnimalsId}" Header="ID" Width="100" IsReadOnly="True"/>
                 <DataGridTextColumn Binding="{Binding Name}" Header="animal name" Width="110"/>
                 <DataGridTextColumn Binding="{Binding DateBorn}" Header="date" Width="70"/>
                 <DataGridComboBoxColumn x:Name="personColumn"  SelectedItemBinding="{Binding PersonNavigation}" SelectedValueBinding="{Binding Path=Person}" SelectedValuePath="UserId" DisplayMemberPath="Username" Header="person" Width="100"/>
                 <DataGridComboBoxColumn x:Name="sexColumn"  SelectedItemBinding="{Binding SexNavigation}" SelectedValueBinding="{Binding Path=Sex}" SelectedValuePath="SexId" DisplayMemberPath="Name" Header="sex" Width="100"/>
                 <DataGridComboBoxColumn x:Name="typeColumn" SelectedItemBinding="{Binding TypeNavigation}" SelectedValueBinding="{Binding Path=Type}" SelectedValuePath="TypeId" DisplayMemberPath="Name" Header="animal type" Width="100"/>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button x:Name="SaveChanges">SaveChanges</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
         <ToolBar HorizontalAlignment="Center" Height="25" VerticalAlignment="Top" Width="800">
             <Button x:Name="AddAnimalButton" Content="Новое животное" HorizontalAlignment="Left" VerticalAlignment="Top" Background="White" Foreground="Black" BorderBrush="Black" Click="AddAnimalButton_Click"/>
             <ToggleButton x:Name="UserAnimal" Content="Мои животные" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="Black" Checked="UserAnimal_Checked" Unchecked="UserAnimal_Unchecked"/>
         </ToolBar>
-        <Label Content="Поиск животных по id" HorizontalAlignment="Left" Margin="480,34,0,0" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Margin="618,38,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Поиск животных по id" HorizontalAlignment="Left" Margin="532,0,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="Search" HorizontalAlignment="Left" Margin="670,4,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" KeyDown="Search_KeyDown"/>
     </Grid>
 </Page>
