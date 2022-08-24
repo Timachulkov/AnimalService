@@ -78,8 +78,15 @@ namespace Baseinfo
                 }
             }
         }
+
+        private void SaveChanges_Click(object sender, RoutedEventArgs e)
+        {
+            //int i = animals_table.SelectedIndex;
+            Animal item = (Animal)animals_table.SelectedValue;
+            dataGrindAnimal.SaveChanges(item);
+        }
     }
-   
+
     enum DataGrindStatus
     {
         FULL,

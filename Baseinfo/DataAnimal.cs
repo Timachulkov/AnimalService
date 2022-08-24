@@ -38,5 +38,13 @@ namespace Baseinfo
         internal List<Sex> GetSexs() => sexSaved;
         internal List<Type> GetTypes() => typesSaved;
         internal List<Account> GetAccounts() => personSaved;
+        internal void SaveChanges(Animal toSave)
+        {
+            using (baseinfoContext db = new baseinfoContext())
+            {
+                db.Animals.Update(toSave);
+                db.SaveChanges();
+            }
+        }
     }
 }
